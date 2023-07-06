@@ -16,13 +16,11 @@ int main() {
     int n;
     cin >> n;
 
-    vector<pair<int, string>> seq;
-    pair<int, string>mem_cop;
+    vector<pair<int, string>> seq(n);
 
     for (int i = 0; i < n; i++)
     {
-        cin >> mem_cop.first >> mem_cop.second;
-        seq.push_back(mem_cop);
+        cin >> seq[i].first >> seq[i].second;
     }
    
    
