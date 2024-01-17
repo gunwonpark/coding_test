@@ -6,40 +6,38 @@ using System.Linq;
 public class Solution {
     public int solution(int[] ingredient) {
         int answer = 0;
-        int[] aa = {1,3,2,1};
-        Stack<int> temp = new Stack<int>();               
-           for(int i=0; i < ingredient.Length; i++)
-           {
-                bool result = false;
-                temp.Push(ingredient[i]);
-                for(int j=0; j < aa.Length; j++)
-                {                    
-                    if(temp.Count >= aa.Length)
+
+        Stack<int> stack = new Stack<int>();
+        List<int> arr = new List<int>(){ 1, 3, 2, 1 };
+
+        for (int i = 0; i < ingredient.Length; i++)
+        {
+            bool canMake = false;
+            stack.Push(ingredient[i]);
+            if(stack.Count >= arr.Count)
+            {
+                for (int j = 0; j < arr.Count; j++)
+                {
+                    if (stack.ElementAt(j) == arr[j])
                     {
-                        if(temp.ElementAt(j) == aa[j])
-                        {
-                            result = true;
-                        }
-                        else
-                        {
-                            result = false;
-                            break;
-                        }
+                        canMake = true;
                     }
                     else
                     {
+                        canMake = false;
                         break;
                     }
                 }
-                if(result)
-                {
-                    temp.Pop();
-                    temp.Pop();
-                    temp.Pop();
-                    temp.Pop();
-                    answer++;
-                }
-           }
+            }
+            if (canMake)
+            {
+                stack.Pop();
+                stack.Pop();
+                stack.Pop();
+                stack.Pop();
+                answer++;
+            }
+        }
         return answer;
     }
 }
