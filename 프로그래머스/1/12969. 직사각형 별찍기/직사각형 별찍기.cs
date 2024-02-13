@@ -12,14 +12,11 @@ public class Example
         int a = Int32.Parse(s[0]);
         int b = Int32.Parse(s[1]);
 
-        string str = "";
         for(int i = 0; i < b; i++){
             for(int j = 0; j < a; j++){
-                str += "*";
+                Console.Write("*");
             }
-            str += "\n";
+            Console.WriteLine();
         }
-        
-        Console.WriteLine("{0}", str);
     }
 }
