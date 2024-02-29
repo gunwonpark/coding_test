@@ -4,9 +4,8 @@ public class Solution {
     public int solution(int k, int m, int[] score) {
         int answer = 0;
         Array.Sort(score);
-        Array.Reverse(score);
         
-        for (int i = m-1; i < score.Length; i += m)
+        for (int i = score.Length - m; i >= 0 ; i -= m)
         {
             answer += score[i] * m;
         }
