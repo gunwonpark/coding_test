@@ -1,24 +1,50 @@
 using System.Linq;
-using System;
+
 public class Solution {
     public int solution(int[] arr) {
-        int result = arr[0];
-        for (int i = 1; i < arr.Length; i++) {
-            result = Lcm(result, arr[i]);
-        }
-        return result;
-    }
+        int answer = 1;
+            int max = arr.Max();
 
-    private int Gcd(int a, int b) {
-        while (b != 0) {
-            int t = b;
-            b = a % b;
-            a = t;
-        }
-        return a;
-    }
+            for (int i = 2; i <= max; i++)
+            {
+                if (!IsPrime(i))
+                    continue;
 
-    private int Lcm(int a, int b) {
-        return Math.Abs(a / Gcd(a, b) * b); 
-    }
+                if (arr.Max() == 1)
+                    break;
+
+                
+                while (true)
+                {
+                    bool tmp = false;
+                    int j = 0;
+                    foreach (var num in arr)
+                    {
+                        if (num % i == 0)
+                        {
+                            tmp = true;
+                            arr[j] /= i;
+                        }
+                        j++;
+                    }
+                    if (tmp)
+                        answer *= i;
+                    else
+                        break;
+                }
+               
+                
+            }
+            return answer;
+        }
+
+        bool IsPrime(int num)
+        {
+            for (int i = 2; i < num; i++)
+            {
+                if (num % i == 0)
+                    return false;
+            }
+            return true;
+        }
 }
