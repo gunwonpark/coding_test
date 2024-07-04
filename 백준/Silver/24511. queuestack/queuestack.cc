@@ -20,7 +20,7 @@ int main()
     cin >> N;
 
     vector<int> A; // stack : 1 or queue : 0
-    stack<int> B;
+    deque<int> B;
 
     for (int i = 0; i < N; i++) {
         int temp;
@@ -32,7 +32,7 @@ int main()
 		int temp;
 		cin >> temp;
         if (A[i] == 0) {
-            B.push(temp);
+            B.push_back(temp);
         }
     }
 
@@ -50,24 +50,11 @@ int main()
     }
 
     
-    int count = B.size();
-
-    if (count >= M) {
-        for (int i = 0; i < M; ++i) {
-            cout << B.top() << " ";
-            B.pop();
-        }
-    }
-    else {
-        while (B.empty() == false) {
-			cout << B.top() << " ";
-			B.pop();
-		}
-
-        for (int i = 0; i < M - count; ++i) {
-			cout << C[i] << " ";
-		}
-    }
+    for(int i : C) {
+        B.push_front(i);
+        cout << B.back() << " ";
+        B.pop_back();
+	}
     
     
 
