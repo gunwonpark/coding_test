@@ -1,5 +1,10 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
+#include <queue>
+#include <stack>
+#include <limits>
+#include <cmath>
 #include <string>
 
 #define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
@@ -7,84 +12,87 @@ typedef long long ll;
 
 using namespace std;
 
+
 struct BigInteger {
-    vector<ll> nums;
-    static const short maxLen = 18;
-    static const ll base = 1000000000000000000LL;
+	vector<ll> nums;
+	short maxLen = 18;
+	ll delimeter = 1000000000000000000;
 
-    BigInteger() {}
+	BigInteger() {}
 
-    BigInteger(string s) {
-        int len = s.length();
-        while (len >= maxLen) {
-            nums.push_back(stoll(s.substr(len - maxLen, maxLen)));
-            len -= maxLen;
-        }
-        if (len > 0) {
-            nums.push_back(stoll(s.substr(0, len)));
-        }
-    }
+	BigInteger(string s) {
+		int len = s.length();
 
-    BigInteger operator+(const BigInteger& b) const {
-        BigInteger result;
-        int maxSize = max(nums.size(), b.nums.size());
-        int minSize = min(nums.size(), b.nums.size());
-        ll carry = 0;
+		while (len >= maxLen) {
+			nums.push_back(stoll(s.substr(len - maxLen, maxLen)));
+			len -= maxLen;
+		}
 
-        for (int i = 0; i < minSize; i++) {
-            ll sum = nums[i] + b.nums[i] + carry;
-            carry = sum / base;
-            sum %= base;
-            result.nums.push_back(sum);
-        }
+		if (len > 0) {
+			nums.push_back(stoll(s.substr(0, len)));
+		}
+	}
 
-        for (int i = minSize; i < maxSize; i++) {
-            if (i < nums.size()) {
-                ll sum = nums[i] + carry;
-                carry = sum / base;
-                sum %= base;
-                result.nums.push_back(sum);
-            } else {
-                ll sum = b.nums[i] + carry;
-                carry = sum / base;
-                sum %= base;
-                result.nums.push_back(sum);
-            }
-        }
+	BigInteger operator+(const BigInteger& b) const {
+		BigInteger result;
+		int maxLen = max(nums.size(), b.nums.size());
+		int minLen = min(nums.size(), b.nums.size());
+		int carry = 0;
 
-        if (carry != 0) {
-            result.nums.push_back(carry);
-        }
+		for (int i = 0; i < minLen; i++) {
+			result.nums.push_back(nums[i] + b.nums[i] + carry);
+			carry = result.nums[i] / delimeter;
+			result.nums[i] %= delimeter;
+		}
+		
+		for (int i = minLen; i < maxLen; i++) {
+			if (nums.size() > b.nums.size()) {
+				result.nums.push_back(nums[i]);
+			}
+			else {
+				result.nums.push_back(b.nums[i]);
+			}
+			result.nums[i] += carry;
+			carry = result.nums[i] / delimeter;
+			result.nums[i] %= delimeter;
+		}
 
-        return result;
-    }
+		if (carry != 0) {
+			result.nums.push_back(carry);
+		}
 
-    void Print() const {
-        if (nums.empty()) {
-            cout << "0";
-            return;
-        }
-        cout << nums.back();
-        for (int i = nums.size() - 2; i >= 0; i--) {
-            cout.width(maxLen);
-            cout.fill('0');
-            cout << nums[i];
-        }
-        cout << endl;
-    }
+		return result;
+	}
+
+	void Print() {
+		for (int i = nums.size() - 1; i >= 0; i--) {
+			if (i == nums.size() - 1) {
+				cout << nums[i];
+			}
+			else {
+				cout.width(maxLen);
+				cout.fill('0');
+				cout << nums[i];
+			}
+		}
+	}
+
 };
 
 int main() {
-    FAST;
+	FAST;
 
-    string a, b;
-    cin >> a >> b;
-    BigInteger N(a);
-    BigInteger M(b);
+	BigInteger N, M;
+	string a, b;
+	cin >> a >> b;
+	N = BigInteger(a);
+	M = BigInteger(b);
+	
+	BigInteger result = N + M;
 
-    BigInteger result = N + M;
+	result.Print();
 
-    result.Print();
-
-    return 0;
+	return 0;
 }
+
+
