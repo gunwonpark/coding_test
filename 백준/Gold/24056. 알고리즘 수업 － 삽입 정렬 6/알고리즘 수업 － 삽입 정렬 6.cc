@@ -18,19 +18,6 @@ using namespace std;
 vector<int> arr_a;
 vector<int> arr_b;
 
-void SliceSort(int start, int end) {
-	vector<int> temp;
-	for (int i = start; i <= end; ++i) {
-		temp.push_back(arr_a[i]);
-	}
-
-	sort(temp.begin(), temp.end());
-
-	int idx = 0;
-	for (int i = start; i <= end; ++i) {
-		arr_a[i] = temp[idx++];
-	}
-}
 
 int main() {
 	FAST;
@@ -58,7 +45,7 @@ int main() {
 
 	for (int i = arr_b.size() - 1; i >= 0; --i) {
 		if (arr_b[i] != arr_a[i]) {
-			SliceSort(0, i);
+			sort(arr_a.begin(), arr_a.begin() + i + 1);
 			end = i;
 			res = false;
 			break;
@@ -78,7 +65,10 @@ int main() {
 				if (chance_a) {
 					chance_a = false;
 					chance_idx_a = 1;
-					i--;
+					if (arr_a[i + chance_idx_a] != arr_b[i + chance_idx_b]) {
+						result = 0;
+						break;
+					}
 				}
 				else {
 					result = 0;
@@ -91,16 +81,20 @@ int main() {
 					chance_b = false;
 					chance_idx_b = 1;
 				}
+				else {
+					result = 0;
+					break;
+				}
 			}
 		}
 
 		if (arr_a[end] != arr_b[end]) {
 			result = 0;
 		}
-
-		
 	}
-cout << result;
+
+	cout << result;
+
 	return 0;
 }
 
