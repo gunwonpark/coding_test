@@ -16,9 +16,8 @@ typedef long long ll;
 
 using namespace std;
 
-int n, k, m;
+ll n, k, m;
 map<char,map<char, int>> arr;
-
 
 int main() {
 	FAST;
@@ -56,11 +55,21 @@ int main() {
 	char start = '[';
 	int count = 0;
 
+	result.push_back(start);
+	char next = sortedArr[start][0].first;
+	start = next;
+
 	ll totalnum = m + k - 1;
 
+	int startChar = sortedArr[start][0].first;
+
+	bool isOne = false;
+	bool hasQuery = false;
+	int queryStart = 1;
+	int queryEnd = 1;
 	while (true) {
 		result.push_back(start);
-		char next = sortedArr[start][0].first;
+		next = sortedArr[start][0].first;
 
 		if (result.size() == totalnum) {
 			break;
@@ -69,20 +78,85 @@ int main() {
 			result.push_back(']');
 			break;
 		}
-
+		if (find(result.begin(), result.end(), next) != result.end()) {
+			hasQuery = true;
+			queryStart = find(result.begin(), result.end(), next) - result.begin();
+			break;
+		}
 		start = next;
+		queryEnd++;
 	}
 
-	string add = "";
-	
-	if (result.size() < totalnum) {
-		add = string(totalnum - result.size(), '.');
-	}
 	string resultStr(result.begin(), result.end());
-	
-	string newString = resultStr + add;
+	//여기까지 순환문이나 완성된 결과가 저장되어있다.
+	int resultStrSize = resultStr.size();
 
-	cout << newString.substr(k - 1, totalnum);
+	string res = "";
+	string queryStr = ".";
+
+	if(hasQuery)queryStr = resultStr.substr(queryStart, queryEnd - queryStart + 1);
+	
+	int querySize = queryStr.size();
+
+	if (k <= resultStrSize) {
+		int count = resultStrSize - k + 1;
+		if (count >= m) {
+			res += resultStr.substr(k - 1, m);
+			return 0;
+		}
+		res += resultStr.substr(k - 1, count);
+		m -= count;
+		
+		int q = m / querySize;
+		int r = m % querySize;
+		for (int i = 0; i < q; ++i) {
+			res += queryStr;
+		}
+		for (int i = 0; i < r; ++i) {
+			res += queryStr[i];
+		}
+	}
+	else {
+		ll startPos = k - resultStrSize;
+
+		int q = m / querySize;
+		int r = startPos % querySize;
+		if(r == 0) r = querySize;
+		if (q == 0) {
+			if (m + r > querySize) {
+				for (int i = r - 1; i < querySize; ++i) {
+					res += queryStr[i];
+				}
+				int temp = querySize - r + 1;
+				for (int i = 0; i < temp; ++i) {
+					res += queryStr[i];
+				}
+			}
+			else {
+				for (int i = r - 1; i < querySize; ++i) {
+					res += queryStr[i];
+				}
+			}
+		}
+		else {
+			for (int i = r - 1; i < querySize; ++i) {
+				res += queryStr[i];
+			}
+			int temp = querySize - r + 1;
+			m -= temp;
+			q = m / querySize;
+			r = m % querySize;
+
+			for (int i = 0; i < q; ++i) {
+				res += queryStr;
+			}
+			for (int i = 0; i < r; ++i) {
+				res += queryStr[i];
+			}			
+		}
+	}
+	
+	cout << res;
 	return 0;
 }
 
