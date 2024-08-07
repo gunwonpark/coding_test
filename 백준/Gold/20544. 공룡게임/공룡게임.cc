@@ -18,8 +18,8 @@ using namespace std;
 
 
 int n;
-vector<ll> smallDp;
-vector<ll> bigDp;
+vector<int> smallDp;
+vector<int> bigDp;
 int mod = 1000000007;
 
 int main() {
@@ -34,8 +34,9 @@ int main() {
 	smallDp[3] = smallDp[2] + smallDp[1] + 1;
 
 	for (int i = 4; i <= n; i++) {
-		smallDp[i] = smallDp[i - 1] + smallDp[i - 2] + smallDp[i - 3];
-		smallDp[i] %= mod;
+		smallDp[i] = (smallDp[i] + smallDp[i - 1]) % mod;
+		smallDp[i] = (smallDp[i] + smallDp[i - 2]) % mod;
+		smallDp[i] = (smallDp[i] + smallDp[i - 3]) % mod;
 	}
 
 	bigDp[1] = 0;
@@ -43,8 +44,15 @@ int main() {
 	bigDp[3] = 4;
 	bigDp[4] = 10;
 	for (int i = 5; i <= n; i++) {
-		bigDp[i] = bigDp[i - 1] + bigDp[i - 2] + smallDp[i - 3] + smallDp[i - 4] + bigDp[i - 2] + smallDp[i - 4] + bigDp[i - 3] * 3;
-		bigDp[i] %= mod;
+		bigDp[i] = (bigDp[i] + bigDp[i - 1]) % mod;
+		bigDp[i] = (bigDp[i] + bigDp[i - 2]) % mod;
+		bigDp[i] = (bigDp[i] + smallDp[i - 3]) % mod;
+		bigDp[i] = (bigDp[i] + smallDp[i - 4]) % mod;
+		bigDp[i] = (bigDp[i] + bigDp[i - 2]) % mod;
+		bigDp[i] = (bigDp[i] + smallDp[i - 4]) % mod;
+		bigDp[i] = (bigDp[i] + bigDp[i - 3]) % mod;
+		bigDp[i] = (bigDp[i] + bigDp[i - 3]) % mod;
+		bigDp[i] = (bigDp[i] + bigDp[i - 3]) % mod;
 	}
 
 	cout << bigDp[n] << "\n";
