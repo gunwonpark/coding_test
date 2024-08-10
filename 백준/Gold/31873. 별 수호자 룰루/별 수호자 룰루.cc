@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <iostream>
 #include <sstream>
 #include <algorithm>
@@ -11,7 +9,7 @@
 #include <string>
 #include <map>
 
-#define FAST ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define FAST ios::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL)
 typedef long long ll;
 
 using namespace std;
@@ -21,7 +19,7 @@ int n, k;
 int main() {
 	FAST; 	
 
-	scanf("%d %d", &n, &k);
+	cin >> n >> k;
 	vector<int> arr(n + 1);
 
 	for (int i = 1; i < n + 1; ++i) {
@@ -60,11 +58,11 @@ int main() {
 		}
 	}
 	
-	printf("YES\n");
+	cout << "YES\n";
 	for (int i = 1; i < n + 1; ++i) {
-		printf("%d ", arr[i]);
+		cout << arr[i] << " ";
 		if (i % k == 0) {
-			printf("\n");
+			cout << "\n";
 		}
 	}
 	return 0;
