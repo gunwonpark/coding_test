@@ -38,10 +38,7 @@ void solve() {
                 check[nextX][nextY] = curValue + board[nextX][nextY];
                 pq.push(Node(check[nextX][nextY], nextX, nextY));
             }
-            else if (check[nextX][nextY] > curValue + board[nextX][nextY]) {
-				check[nextX][nextY] = curValue + board[nextX][nextY];
-				pq.push(Node(check[nextX][nextY], nextX, nextY));
-			}
+            
         }
     }
 }
