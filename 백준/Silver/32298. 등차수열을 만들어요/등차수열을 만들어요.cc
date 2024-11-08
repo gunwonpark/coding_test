@@ -1,58 +1,61 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
+#include<bits/stdc++.h>
+
+#define FAST ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
 
 using namespace std;
 
-// 소수 여부를 판단하기 위한 에라토스테네스의 체 함수
-vector<bool> sieve(int limit) {
-    vector<bool> is_prime(limit + 1, true);
-    is_prime[0] = is_prime[1] = false;
-    for (int i = 2; i <= sqrt(limit); i++) {
-        if (is_prime[i]) {
-            for (int j = i * i; j <= limit; j += i) {
-                is_prime[j] = false;
-            }
-        }
-    }
-    return is_prime;
-}
+typedef long long ll;
+
+bool is_prime[2000001];
 
 int main() {
-    int N, M;
-    cin >> N >> M;
+    FAST;
+  
+    int n, adder; cin >> n >> adder;
 
-    const int LIMIT = 2000000;
-    vector<bool> is_prime = sieve(LIMIT);
+    //에라스토체네스의 체 -> 미리 1000까지의 수를 계산해 둔다
+    
+    memset(is_prime, true, sizeof(is_prime));
+    is_prime[1] = false;
 
-    // 소수가 아닌 수를 저장할 벡터
-    vector<int> non_primes;
-    for (int i = 1; i <= LIMIT; i++) {
-        if (!is_prime[i]) {
-            non_primes.push_back(i);
+    int sq = sqrt(2000000);
+    for (int i = 2; i <= sq; i++) {
+        if (is_prime[i] == false) continue;
+        int iter = i;
+        while (i * iter <= 2000000) {
+            is_prime[i * iter++] = false;
         }
     }
 
-    // 등차수열을 찾기 위한 시도
-    for (int i = 0; i < non_primes.size(); i++) {
-        bool found = true;
-        vector<int> sequence;
-        for (int j = 0; j < N; j++) {
-            int term = non_primes[i] + j * M;
-            if (term > LIMIT || is_prime[term]) {
-                found = false;
-                break;
-            }
-            sequence.push_back(term);
+    if ((adder & 1) == 0) {
+        //짝수 일 경우 4 부터 시작해 값을 구해주면 된다
+        for (int i = 0; i < n; i++) {
+            cout << 4 + adder * i << " ";
         }
-        if (found) {
-            for (int k = 0; k < sequence.size(); k++) {
-                cout << sequence[k] << (k == sequence.size() - 1 ? "\n" : " ");
+    }
+    else {
+        vector<int> result;
+        // 홀수일 경우 소수가 아닌 것부터 시작해서 adder - 1까지 탐색해본다음 없으면 -1을 cout한다
+        for (int i = 1; i < 2000000; i++) {
+            result.clear();            
+            for (int iter = 0; iter < n; iter++) {
+                if (is_prime[i + adder * iter]) break;
+                result.push_back(i + adder * iter);
             }
-            return 0;
+            if (result.size() == n) break;
+        }
+
+        if (result.size() == n) {
+            for (int i = 0; i < n; i++) {
+                cout << result[i] << " ";
+            }
+        }
+        else {
+            cout << -1;
         }
     }
 
-    cout << -1 << endl;
+    
+
     return 0;
 }
