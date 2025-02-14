@@ -2,7 +2,7 @@
 
 #define FAST std::ios::sync_with_stdio(false); std::cin.tie(NULL); std::cout.tie(NULL);
 
-constexpr double PI = 3.14159265358979323846;
+constexpr double PI = 3.1415926;
 
 typedef long long ll;
 
