@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-
+#include <unordered_set>
 #define FAST std::ios::sync_with_stdio(false); std::cin.tie(NULL); std::cout.tie(NULL);
 
 typedef long long ll;
@@ -8,13 +8,13 @@ using namespace std;
 
 
 int main() {
-	FAST;	
+	FAST;
 
 	int n; cin >> n;
 	vector<int> left, right;
-	set<int> left_set, right_set;
+	unordered_set<int> left_set, right_set;
 
-	int answer = 0;
+	ll answer = 0;
 
 	for (int i = 0; i < n; i++) {
 		int x, y; cin >> x >> y;
@@ -39,7 +39,7 @@ int main() {
 	sort(left.begin(), left.end());
 	sort(right.begin(), right.end());
 
-	set<int> total;
+	unordered_set<int> total;
 
 	for (auto& l : left_set) {
 		total.insert(l);
@@ -57,7 +57,7 @@ int main() {
 
 	cout << answer + total.size();
 
-	
+
 
 	return 0;
 }
