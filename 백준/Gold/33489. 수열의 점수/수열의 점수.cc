@@ -6,7 +6,7 @@ typedef long long ll;
 
 using namespace std;
 
-ll fibo[501];
+ll fibo[1001];
 
 int main() {
 	FAST;
@@ -16,7 +16,7 @@ int main() {
 	fibo[0] = 0;
 	fibo[1] = 1;
 
-	for (int i = 2; i <= 500; i++) {
+	for (int i = 2; i <= 1000; i++) {
 		fibo[i] = (fibo[i - 1] + fibo[i - 2]);
 	}
 
@@ -27,12 +27,12 @@ int main() {
 
 		int index = 0;
 
-		for (; index < 500; index++) {
+		for (; index < 1001; index++) {
 			if (fibo[index + 1] > y || fibo[index + 2] > x) {
 				break;
 			}
 		}
-		cout << fibo[index] << " " << fibo[index + 1] << '\n';
+		cout << fibo[index + 1] << " " << fibo[index] << '\n';
 	}
 
 	return 0;
