@@ -1,15 +1,9 @@
 #include <bits/stdc++.h>
+
 #define FAST std::ios::sync_with_stdio(false); std::cin.tie(NULL); std::cout.tie(NULL);
 typedef long long ll;
 
 using namespace std;
-
-struct Compare {
-	bool operator()(pair<int, int> a, pair<int, int> b) {
-		return a.second > b.second;
-	}
-};;
-
 
 int main() {
 	FAST;
@@ -26,14 +20,14 @@ int main() {
 
 	cin >> s >> e;
 
-	priority_queue<pair<int, int>, vector<pair<int, int>>, Compare> pq;
+	queue<pair<int,int>> pq;
 	vector<int> dist(n + 1, 1e9);
 	vector<vector<int>> path(n + 1);
 
 	pq.push({ s, 0 });
 
 	while (!pq.empty()) {
-		auto cur = pq.top();
+		auto cur = pq.front();
 		int curNode = cur.first;
 		int curDist = cur.second;
 
@@ -56,7 +50,7 @@ int main() {
 		}
 	}
 
-	set<int> visited;
+	unordered_set<int> visited;
 
 	queue<int> q;
 	q.push(e);
