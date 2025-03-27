@@ -17,6 +17,8 @@ int main() {
 		cin >> arr[i];
 	}
 
+	sort(arr.begin(), arr.end());
+
     for (int i = 2; i <= n - 2; i++) {
         for (int j = 0; j < i - 1; j++) {
             sums[arr[i - 1] + arr[j]] = true;
@@ -25,7 +27,7 @@ int main() {
         for (int j = i + 1; j < n; j++) {
             int value = w - arr[i] - arr[j];
 
-            if (value <= 0) continue;
+            if (value <= 0) break;
             if (sums[value]) {
                 cout << "YES";
                 return 0;
