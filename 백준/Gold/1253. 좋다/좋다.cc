@@ -16,48 +16,39 @@ int main() {
 		cin >> arr[i];
 	}
 	
-	set<int> s;
-	map<int, int> zero_map;
-	map<int, int> num_map;
-	for (int i = 0; i < n; i++) {
-		for (int j = i + 1; j < n; j++) {
-			if (arr[i] != 0 && arr[j] != 0) {
-				s.insert(arr[i] + arr[j]);
-			}
-			else {
-				if (arr[i] == 0 && arr[j] == 0) {
-					continue;
-				}
-				if (arr[i] == 0) {
-					zero_map[arr[j]]++;
-				}
-				else if(arr[j] == 0){
-					zero_map[arr[i]]++;
-				}
-			}
-		}
-	}
+	sort(arr.begin(), arr.end());
 
-	int zero_count = 0;
+	map<int, int> num_map;
+
 	for (int i = 0; i < n; i++) {
-		if (arr[i] == 0) {
-			zero_count++;
-		}
-		else {
-			num_map[arr[i]]++;
-		}
+		num_map[arr[i]]++;
 	}
 
 	int ans = 0;
-	for (int i = 0; i < n; i++) {
-		if (s.find(arr[i]) != s.end()) {
-			ans++;
-		}
-		else if (zero_map.find(arr[i]) != zero_map.end() && num_map[arr[i]] >= 2) {
-			ans++;
-		}
-		else if (arr[i] == 0 && zero_count >= 3) {
-			ans++;
+	
+	int left{}, right = arr.size() - 1;
+	int zero_count = num_map[0];
+
+	for(int i = 0; i < n; i++){
+		for (int j = i + 1; j < n; j++) {
+			int sum = arr[i] + arr[j];
+
+			if (arr[i] == 0 || arr[j] == 0) {
+				if (sum != 0 && num_map.find(sum) != num_map.end() && num_map[sum] > 1 ) {
+					ans += num_map[sum];
+					num_map.erase(sum);
+				}
+				else if (sum == 0 && num_map.find(0) != num_map.end() && num_map[0] > 2) {
+					ans += num_map[0];
+					num_map.erase(0);
+				}
+			}
+			else {
+				if (num_map.find(sum) != num_map.end() && num_map[sum] > 0) {
+					ans += num_map[sum];
+					num_map.erase(sum);
+				}
+			}
 		}
 	}
 
