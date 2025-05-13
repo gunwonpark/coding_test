@@ -5,7 +5,6 @@ typedef long long ll;
 
 using namespace std;
 
-
 int main()
 {
 	FAST;
@@ -30,10 +29,11 @@ int main()
 
 	while (T--) {
 		int n; cin >> n;
-		cout << dp[n][0] + dp[n][1] + dp[n][2] << '\n';
+		cout << (dp[n][0] + dp[n][1] + dp[n][2]) % 1000000007 << '\n';
 	}
 
 
 
 	return 0;
 }
+
