@@ -5,36 +5,29 @@ typedef long long ll;
 
 using namespace std;
 
-vector<string> split(const char* str, const char* delimeter) {
-	vector<string> tokens;
-	char* str_copy = strdup(str);
-	char* token = strtok(str_copy, delimeter);
-
-	while (token != nullptr) {
-		tokens.push_back(token);
-		token = strtok(nullptr, delimeter);
-	}
-
-	return tokens;
-}
-
 int main()
 {
 	FAST;
-	
+
 	int n; cin >> n;
 	string input; cin >> input;
 
-	vector<string> tokens = split(input.data(), ".|:#");
-	int answer = 0;
-	for (int i = 0; i < tokens.size(); i++) {
-		int num = stoi(tokens[i]);
-		answer += num;
+	for (int i = 0; i < input.size(); i++) {
+		if (input[i] == '.' || input[i] == '|' || input[i] == '#' || input[i] == ':') {
+			input[i] = ' ';
+		}
 	}
 
-	cout << answer;
+	stringstream in(input);
 
+	int ans = 0;
+	
+	while (in >> input)
+	{
+		ans += stoi(input);
+	}
 
+	cout << ans;
 
 	return 0;
 }
