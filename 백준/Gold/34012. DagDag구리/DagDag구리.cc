@@ -11,14 +11,12 @@ int main()
 
 	int n, m; cin >> n >> m;
 
-	map<int, vector<int>> adj;
 	map<int, int> outdegree;
 	set<int> nodes;
 	int E = 0;
 
 	for (int i = 0; i < m; i++) {
 		int u, v; cin >> u >> v;
-		adj[u].push_back(v);
 		outdegree[u]++;
 		nodes.insert(u);
 		nodes.insert(v);
