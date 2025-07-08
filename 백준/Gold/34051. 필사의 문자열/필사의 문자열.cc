@@ -27,22 +27,8 @@ int main()
 			}
 
 			find = true;
-			string temp = "";
-
-			for (int k = 0; k < i; k++)
-			{
-				temp += s[k];
-			}
-
-			for (int k = j; k >= i; k--)
-			{
-				temp += s[k];
-			}
-
-			for (int k = j + 1; k < n; k++)
-			{
-				temp += s[k];
-			}
+			string temp = s;
+			reverse(temp.begin() + i, temp.begin() + j + 1);
 			
 			if (temp > answer)
 			{
