@@ -23,6 +23,17 @@ int travel(int day, int count, int friend_count)
 		return dp[day][count][friend_count] = travel(day + 1, count, friend_count) + 1;
 	}
 
+	dp[day][count][friend_count] = travel(day + 1, count, friend_count);
+
+	int adder_limit = t - (cur_people + friend_count);
+	adder_limit = max(adder_limit, 0);
+
+	if (adder_limit <= count && adder)
+	{
+		dp[day][count][friend_count] = travel(day + 1, count - adder_limit, friend_count + adder_limit) + 1;
+	}
+
+
 	for (int i = 0; i <= k; i++)
 	{
 		if (count - i < 0) break;
