@@ -7,27 +7,44 @@ using namespace std;
 
 vector<vector<int>> tree;
 vector<int> visited;
-map<int, int> mp;
-int cur_count = 0;
+vector<int> group_value;
+vector<int> parent;
+vector<int> group;
 
-
-void travel(int node, int q)
+int find(int n)
 {
-	cur_count++;
-	visited[node] = q;
+	if (group[n] == n) return n;
+	return group[n] = find(group[n]);
+}
 
-	for (auto it : tree[node])
+void merge(int a, int b)
+{
+	a = find(a);
+	b = find(b);
+
+	if (a == b) return;
+
+	group_value[a] += group_value[b];
+	group[b] = a;
+	group_value[b] = 0;
+}
+
+void calc_parent(int current, int parentIdx)
+{
+	parent[current] = parentIdx;
+
+	for(int i = 0; i < tree[current].size(); i++)
 	{
-		if (visited[it] != q && mp.find(it) != mp.end())
-		{
-			travel(it, q);
-		}
+		int next = tree[current][i];
+		if (next == parentIdx) continue;
+		calc_parent(next, current);
 	}
 }
 
+
+
 int calc(int n)
 {
-	if (n == 0 || n == 1) return 0;
 	return (n * (n - 1)) / 2;
 }
 
@@ -37,6 +54,9 @@ int main()
 	int n; cin >> n;
 	tree.resize(n + 1);
 	visited.resize(n + 1, 0);
+	group_value.resize(n + 1, 0);
+	parent.resize(n + 1, 0);
+	group.resize(n + 1, 0);
 
 	for(int i = 0; i < n - 1; i++)
 	{
@@ -45,30 +65,41 @@ int main()
 		tree[v].push_back(u);
 	}
 
-	int q; cin >> q;
+	calc_parent(1, 1);
 
+	int q; cin >> q;
 	while(q--)
 	{
-		mp.clear();
-		ll answer = 0;
-
 		int count; cin >> count;
+		vector<int> nodes(count);
 		for(int i = 0; i < count; i++)
 		{
-			int node; cin >> node;
-			mp[node]++;
-		}
-		
-		for (auto it : mp)
-		{
-			int node = it.first;
-			if (visited[node] == q) continue;
-			cur_count = 0;
-			travel(node, q);
-			answer += calc(cur_count);
+			cin >> nodes[i];
+			group_value[nodes[i]] = 1;
+			visited[nodes[i]] = q;
+			group[nodes[i]] = nodes[i];
 		}
 
-		cout << answer << "\n";
+		for (int i = 0; i < count; i++)
+		{
+			int current = nodes[i];
+			if (visited[parent[current]] != q) continue;
+
+			merge(current, parent[current]);
+		}
+
+		ll answer = 0;
+		for(int i = 0; i < count; i++)
+		{
+			int root = find(nodes[i]);
+			if (group_value[root] > 0)
+			{
+				answer += calc(group_value[root]);
+				group_value[root] = 0;
+			}
+		}
+
+		cout << answer << '\n';
 	}
 
 	return 0;
