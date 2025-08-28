@@ -7,7 +7,7 @@ using namespace std;
 
 vector<vector<int>> tree;
 vector<int> visited;
-vector<int> group_value;
+vector<ll> group_value;
 vector<int> parent;
 vector<int> group;
 
@@ -41,9 +41,7 @@ void calc_parent(int current, int parentIdx)
 	}
 }
 
-
-
-int calc(int n)
+ll calc(ll n)
 {
 	return (n * (n - 1)) / 2;
 }
@@ -76,14 +74,14 @@ int main()
 		{
 			cin >> nodes[i];
 			group_value[nodes[i]] = 1;
-			visited[nodes[i]] = q;
+			visited[nodes[i]] = q + 1;
 			group[nodes[i]] = nodes[i];
 		}
 
 		for (int i = 0; i < count; i++)
 		{
 			int current = nodes[i];
-			if (visited[parent[current]] != q) continue;
+			if (visited[parent[current]] != q + 1) continue;
 
 			merge(current, parent[current]);
 		}
