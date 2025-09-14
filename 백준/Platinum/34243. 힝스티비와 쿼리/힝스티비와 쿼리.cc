@@ -40,7 +40,6 @@ int getPreSum(int left, int right)
 
 	left = max(left + 1, 0);
 	right = min(right - 1, (int)s.size() - 1);
-	if (left == 0) return base[right];
 	return base[right] - base[left - 1];
 }
 
