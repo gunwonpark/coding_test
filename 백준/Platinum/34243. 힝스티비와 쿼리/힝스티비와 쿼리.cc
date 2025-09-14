@@ -38,9 +38,7 @@ int getPreSum(int left, int right)
 {
 	if (right - left + 1 < 3) return 0;
 
-	left = max(left + 1, 0);
-	right = min(right - 1, (int)s.size() - 1);
-	return base[right] - base[left - 1];
+	return base[right - 1] - base[left];
 }
 
 int init(int left, int right, int index)
