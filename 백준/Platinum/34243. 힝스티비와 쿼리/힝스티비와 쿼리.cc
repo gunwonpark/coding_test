@@ -91,7 +91,8 @@ int main()
 		base[i] = base[i - 1] + getScore(c1, c2, c3);
 	}
 
-	base[s.size() - 1] = base[s.size() - 2];
+	if(s.size() > 2)
+		base[s.size() - 1] = base[s.size() - 2];
 
 	init(0, s.size() - 1, 0);
 
@@ -105,8 +106,6 @@ int main()
 		if (r - l + 1 >= 5)
 		{
 			enable = query(0, s.size() - 1, 0, l + 2, r - 2);
-			enable = max(enable, findEnable(l, l, r));
-			enable = max(enable, findEnable(r, l, r));
 			enable = max(enable, findEnable(l + 1, l, r));
 			enable = max(enable, findEnable(r - 1, l, r));
 		}
