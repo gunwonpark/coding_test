@@ -36,8 +36,7 @@ int findEnable(int key, int mi, int ma)
 
 int getPreSum(int left, int right)
 {
-	if (right - left + 1 < 3) return 0;
-
+    if(right - left + 1 < 3) return 0;
 	return base[right - 1] - base[left];
 }
 
@@ -78,7 +77,6 @@ int main()
 	segtree.resize(4 * s.size());
 	base.resize(s.size());
 	
-	base[0] = 0;
 	for (int i = 1; i < s.size() - 1; i++)
 	{
 		char c1 = s[i - 1];
@@ -88,8 +86,7 @@ int main()
 		base[i] = base[i - 1] + getScore(c1, c2, c3);
 	}
 
-	if(s.size() > 2)
-		base[s.size() - 1] = base[s.size() - 2];
+	base[s.size() - 1] = base[s.size() - 2];
 
 	init(0, s.size() - 1, 0);
 
@@ -103,6 +100,8 @@ int main()
 		if (r - l + 1 >= 5)
 		{
 			enable = query(0, s.size() - 1, 0, l + 2, r - 2);
+			enable = max(enable, findEnable(l, l, r));
+			enable = max(enable, findEnable(r, l, r));
 			enable = max(enable, findEnable(l + 1, l, r));
 			enable = max(enable, findEnable(r - 1, l, r));
 		}
