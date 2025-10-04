@@ -1,59 +1,67 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
+
+#define FAST ios::sync_with_stdio(false); cin.tie(nullptr);
+#define ll long long
+
+using namespace std;
 
 int main() {
-    // 입출력 속도 향상
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(NULL);
+    FAST;
 
-    int N;
-    std::cin >> N;
+    int n; cin >> n;
+	vector<int> a(n);
+	for (int i = 0; i < n; i++) cin >> a[i];
 
-    if (N == 0) {
-        std::cout << 0 << std::endl;
-        return 0;
-    }
-    
-    std::vector<int> S(N);
-    for (int i = 0; i < N; ++i) {
-        std::cin >> S[i];
-    }
+    int m = -1;
+    int answer = 1;
+    int num = 1;
+    bool same_once = false;
 
-    int max_len = 1;
+    for (int i = 1; i < n; i++)
+    {
+		int prev = a[i - 1];
+		int cur = a[i];
 
-    // 모든 가능한 중심에 대해 탐색
-    for (int i = 0; i < N; ++i) {
-        // 1. 홀수 길이 팰린드롬 (중심: i)
-        int l = i - 1;
-        int r = i + 1;
-        int current_len = 1;
-        while (l >= 0 && r < N && S[l] == S[r] && S[l] < S[l + 1]) {
-            current_len += 2;
-            l--;
-            r++;
+        if (cur > prev)
+        {
+            num = 1;
+            m = i;
+            same_once = false;
         }
-        if (current_len > max_len) {
-            max_len = current_len;
-        }
-
-        // 2. 짝수 길이 팰린드롬 (중심: i, i+1)
-        if (i + 1 < N && S[i] == S[i + 1]) {
-            l = i - 1;
-            r = i + 2;
-            current_len = 2;
-            while (l >= 0 && r < N && S[l] == S[r] && S[l] < S[l + 1]) {
-                current_len += 2;
-                l--;
-                r++;
+        else if (cur == prev)
+        {
+            if (same_once == false)
+            {
+                same_once = true;
+                answer = max(answer, 2);
+                if (num != 1)
+                {
+                    m = -1;
+                    num = 1;
+                }
             }
-            if (current_len > max_len) {
-                max_len = current_len;
+            else {
+                m = -1;
             }
         }
+        else if (cur < prev)
+        {
+            if (m != -1 && a[i] == a[m - num])
+            {
+				answer = max(answer, i - (m - num) + 1);
+                num++;
+            }
+            else
+            {
+                num = 1;
+                m = -1;
+
+            }
+            same_once = false;
+        }
     }
 
-    std::cout << max_len << std::endl;
+	cout << answer << "\n";
 
     return 0;
 }
