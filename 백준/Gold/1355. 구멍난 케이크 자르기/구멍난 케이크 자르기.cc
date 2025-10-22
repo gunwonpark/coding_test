@@ -11,7 +11,6 @@ int main() {
     set<int> horizontalCuts;
     set<int> verticalCuts;
     int h; cin >> h;
-
     for (int i = 0; i < h; i++) {
         int cut; cin >> cut;
         horizontalCuts.insert(cut);
@@ -24,17 +23,14 @@ int main() {
 
     ll answer = 1;
     int intervalCount = 0;
-    int insideCount = 0;
     bool isInterval = false;
     bool isFirst = true;
-
     for (auto& cut : horizontalCuts)
     {
         int horizontalCut = cut;
 
         if (horizontalCut >= -m && horizontalCut <= m)
         {
-            insideCount++;
             isInterval = true;
         }
         else
@@ -61,6 +57,10 @@ int main() {
         }
     }
 
+    int temp = horizontalCuts.size() - intervalCount;
+    if (temp < 1) temp = 0;
+    else temp -= 1;
+
     isInterval = false;
     isFirst = true;
 
@@ -80,14 +80,8 @@ int main() {
         {
             if (isFirst)
             {
-                if (insideCount > 0)
-                {
-					answer += 2 + intervalCount;
-                }
-                else
-                {
-					answer += 1 + intervalCount;
-                }
+                answer -= temp;
+                answer += horizontalCuts.size() + 1;
                 isFirst = false;
             }
             else
